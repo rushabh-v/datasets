@@ -1,0 +1,6 @@
+seq	label	seq_info	domain
+CCTTCACGGA	Actinoplanes	A0000000.10 Actinoplanes, complete genome, @123-132	ood
+GCGCGTTATA	Anabaena	A0000000.14 Anabaena, complete genome, @87-96	ood
+TTTACATACA	Cedecea	A0000000.20 Cedecea, complete genome, @43-52	ood
+CGCATATGTG	Cyclobacterium	A0000000.26 Cyclobacterium, complete genome, @52-61	ood
+TTTGCAGTCA 	Rufibacter	A0000000.61 Rufibacter, complete genome, @321-330	ood

@@ -1,0 +1,6 @@
+seq	label	seq_info	domain
+GTCCCCAGTC	Streptococcus	A0000000.8 Streptococcus, complete genome, @337-346	in
+GAATATATAA	Mycobacterium	A0000000.4 Mycobacterium, complete genome, @85-94	in
+GTCCCATGTC	Staphylococcus	A0000000.7 Staphylococcus, complete genome, @637-646	in
+CGCGCTTTCT	Salmonella	A0000000.6 Salmonella, complete genome, @2-11	in
+AATTTTTATC	Escherichia	A0000000.3 Escherichia, complete genome, @22-31	in

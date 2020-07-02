@@ -1,0 +1,6 @@
+seq	label	seq_info	domain
+TCTCTAACAT	Thiodictyon	A0000000.128 Thiodictyon, complete genome, @6123-6132	ood
+GGCGCGTTTA	Cellulosimicrobium	A0000000.79 Cellulosimicrobium, complete genome, @3243-32412	ood
+CGTTAGCTAA	Faecalibacterium	A0000000.85 Faecalibacterium, complete genome, @1113-1112	ood
+AACTCAAAGC	Plesiomonas	A0000000.115 Plesiomonas, complete genome, @833-842	ood
+TTTCTCAACA	Fuerstia	A0000000.89 Fuerstia, complete genome, @643-652	ood

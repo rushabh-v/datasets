@@ -1,0 +1,6 @@
+seq	label	seq_info	domain
+ATTATGAGTT	Bacillus	A0000000.0 Bacillus, complete genome, @1-10	in
+CATTATACAA	Yersinia	A0000000.9 Yersinia, complete genome, @2-11	in
+CGGGAATTCT	Salmonella	A0000000.6 Salmonella, complete genome, @12-21	in
+GTCCTCAATC	Staphylococcus	A0000000.7 Staphylococcus, complete genome, @33-42	in
+AATTAACCTC	Escherichia	A0000000.3 Escherichia, complete genome, @3-12	in
