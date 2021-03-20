@@ -78,12 +78,29 @@ def builder_cls(name: str) -> Type[dataset_builder.DatasetBuilder]:
   Raises:
     DatasetNotFoundError: if `name` is unrecognized.
   """
-  ds_name, kwargs = naming.parse_builder_name_kwargs(name)
+  if ":" in name:
+    username, ds_name = name.split(":")
+    cls_name = naming.snake_to_camelcase(ds_name)
+    ds_name, kwargs = naming.parse_builder_name_kwargs(ds_name)
+    from community_datasets import get_data
+    cls = get_data(username, ds_name, return_cls=True, cls_name=cls_name)
+    cls = typing.cast(Type[dataset_builder.DatasetBuilder], cls)
+    return cls
+
+  else:
+    ds_name, kwargs = naming.parse_builder_name_kwargs(name)
+
   if kwargs:
     raise ValueError(
         '`builder_cls` only accept the `dataset_name` without config, '
         f"version or arguments. Got: name='{name}', kwargs={kwargs}"
     )
+
+  if ds_name.namespace:
+    raise ValueError(
+        f'Namespaces not supported for `builder_cls`. Got: {ds_name}'
+    )
+
   try:
     if ds_name.namespace:
       # `namespace:dataset` are loaded from the community register
@@ -132,30 +149,35 @@ def builder(
     DatasetNotFoundError: if `name` is unrecognized.
   """
   # 'kaggle:my_dataset:1.0.0' -> ('kaggle', 'my_dataset', {'version': '1.0.0'})
-  name, builder_kwargs = naming.parse_builder_name_kwargs(
-      name, **builder_kwargs
-  )
-
-  # `try_gcs` currently only support non-community datasets
-  if (
-      try_gcs
-      and not name.namespace
-      and gcs_utils.is_dataset_on_gcs(str(name))
-  ):
-    data_dir = builder_kwargs.get('data_dir')
-    if data_dir:
-      raise ValueError(
-          f'Cannot have both `try_gcs=True` and `data_dir={data_dir}` '
-          'explicitly set'
-      )
-    builder_kwargs['data_dir'] = gcs_utils.gcs_path('datasets')
-
-  # First check whether code exists or not
-  try:
+  if ":" in name:
     cls = builder_cls(str(name))
-  except registered.DatasetNotFoundError as e:
-    cls = None  # Class not found
-    not_found_error = e  # Save the exception to eventually reraise
+    if cls is None:
+      raise Exception("{} not found in community_datasets.".format(str(name)))
+  else:
+    name, builder_kwargs = naming.parse_builder_name_kwargs(
+        name, **builder_kwargs
+    )
+
+    # `try_gcs` currently only support non-community datasets
+    if (
+        try_gcs
+        and not name.namespace
+        and gcs_utils.is_dataset_on_gcs(str(name))
+    ):
+      data_dir = builder_kwargs.get('data_dir')
+      if data_dir:
+        raise ValueError(
+            f'Cannot have both `try_gcs=True` and `data_dir={data_dir}` '
+            'explicitly set'
+        )
+      builder_kwargs['data_dir'] = gcs_utils.gcs_path('datasets')
+
+    # First check whether code exists or not
+    try:
+      cls = builder_cls(str(name))
+    except registered.DatasetNotFoundError as e:
+      cls = None  # Class not found
+      not_found_error = e  # Save the exception to eventually reraise
 
   # Eventually try loading from files first
   if _try_load_from_files_first(cls, **builder_kwargs):
